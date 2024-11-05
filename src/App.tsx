@@ -23,25 +23,29 @@ const ItemList = () => {
     return items.reduce((acc, item) => acc + item.price, 0);
   }, [items]);
 
+  // 计算总成本
+  const totalCost = useMemo(() => {
+    return items.reduce((acc, item) => acc + item.chengben, 0);
+  }, [items]);
+
   // DataGrid 的列定义
   const columns = [
     { field: 'name', headerName: '名称', width: 150, editable: true },
-    { field: 'model', headerName: '具体型号', width: 200, editable: true }, // 新增“具体型号”列
-    { field: 'price', headerName: '单价', width: 150, editable: true },
-    { field: 'chengben', headerName: '成本', width: 150, editable: true },
+    { field: 'model', headerName: '具体型号', width: 200, editable: true },
+    { field: 'price', headerName: '单价', width: 100, editable: true },
+    { field: 'chengben', headerName: '成本', width: 100, editable: true },
   ];
 
   // 更新行数据的处理函数
-  const handleProcessRowUpdate = (newRow: { price: number; chengben: number; id: number; model: any; }) => {
+  const handleProcessRowUpdate = (newRow: { price: number; chengben: number; id: number; }) => {
+    // 输入验证：确保价格和成本为有效数字
     if (isNaN(newRow.price) || isNaN(newRow.chengben) || newRow.price < 0 || newRow.chengben < 0) {
       alert('请输入有效的数字');
       return newRow;
     }
 
     const updatedItems = items.map(item =>
-      item.id === newRow.id
-        ? { ...item, price: Number(newRow.price), chengben: Number(newRow.chengben), model: newRow.model }
-        : item
+      item.id === newRow.id ? { ...item, price: Number(newRow.price), chengben: Number(newRow.chengben) } : item
     );
     setItems(updatedItems);
     return newRow;
@@ -50,34 +54,37 @@ const ItemList = () => {
   // 添加新行的处理函数
   const handleAddRow = () => {
     const newItem = {
-      id: items.length + 1,
-      name: `新商品 ${items.length + 1}`,
-      model: '', // 默认空型号
-      price: 0,
-      chengben: 0,
+      id: items.length + 1, // 生成新的 id
+      name: `新商品 ${items.length + 1}`, // 默认名称
+      model: '', // 默认具体型号
+      price: 0, // 默认单价
+      chengben: 0, // 默认成本
     };
-    setItems([...items, newItem]);
+    setItems([...items, newItem]); // 添加新行
   };
 
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
-      {/* 添加新行按钮 */}
-      <Button variant="contained" onClick={handleAddRow} sx={{ marginBottom: 2 }}>
-        添加商品
-      </Button>
       {/* 商品列表 */}
       <DataGrid
         rows={items}
         columns={columns}
         pagination
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
-        processRowUpdate={handleProcessRowUpdate}
-        hideFooter
+        onPaginationModelChange={setPaginationModel} // 更新分页状态
+        processRowUpdate={handleProcessRowUpdate} // 处理行更新
+        hideFooter // 隐藏分页信息
       />
-      {/* 总价显示 */}
-      <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'flex-end' }}>
+
+      {/* 添加新行按钮 */}
+      <Button variant="contained" onClick={handleAddRow} sx={{ margin: 2 }}>
+        添加商品
+      </Button>
+
+      {/* 显示总价和总成本价 */}
+      <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6">总价: ¥{total}</Typography>
+        <Typography variant="h6">总成本: ¥{totalCost}</Typography>
       </Box>
     </Box>
   );
