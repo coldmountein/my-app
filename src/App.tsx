@@ -35,15 +35,18 @@ const ItemList = () => {
   ];
 
   // 更新行数据的处理函数
-  const handleProcessRowUpdate = (newRow: { price: number; chengben: number; id: number; }) => {
+  const handleProcessRowUpdate = (newRow: { price: number; chengben: number; model: string; id: number; }) => {
     // 输入验证：确保价格和成本为有效数字
     if (isNaN(newRow.price) || isNaN(newRow.chengben) || newRow.price < 0 || newRow.chengben < 0) {
       alert('请输入有效的数字');
       return newRow;
     }
 
+    // 更新行数据，确保 model 字段也被正确更新
     const updatedItems = items.map(item =>
-      item.id === newRow.id ? { ...item, price: Number(newRow.price), chengben: Number(newRow.chengben) } : item
+      item.id === newRow.id
+        ? { ...item, price: Number(newRow.price), chengben: Number(newRow.chengben), model: newRow.model }
+        : item
     );
     setItems(updatedItems);
     return newRow;
