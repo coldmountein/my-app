@@ -5,14 +5,14 @@ import { Box, Typography, Button } from '@mui/material';
 const ItemList = () => {
   // 商品数据
   const [items, setItems] = useState([
-    { id: 1, name: 'CPU', model: '', price: 50, chengben: 20 },
-    { id: 2, name: '显卡', model: '', price: 30, chengben: 25 },
-    { id: 3, name: '主板', model: '', price: 20, chengben: 15 },
-    { id: 4, name: '内存', model: '', price: 40, chengben: 30 },
-    { id: 5, name: '固态', model: '', price: 25, chengben: 20 },
-    { id: 6, name: '散热', model: '如图所示', price: 15, chengben: 10 },
-    { id: 7, name: '电源', model: '', price: 15, chengben: 10 },
-    { id: 8, name: '机箱', model: '如图所示', price: 15, chengben: 10 },
+    { id: 1, name: 'CPU', model: '', price: 0, chengben: 0 },
+    { id: 2, name: '显卡', model: '', price: 0, chengben: 0 },
+    { id: 3, name: '主板', model: '', price: 0, chengben: 0 },
+    { id: 4, name: '内存', model: '', price: 0, chengben: 0 },
+    { id: 5, name: '固态', model: '', price: 0, chengben: 0 },
+    { id: 6, name: '散热', model: '如图所示', price: 0, chengben: 0 },
+    { id: 7, name: '电源', model: '', price: 0, chengben: 0 },
+    { id: 8, name: '机箱', model: '如图所示', price: 0, chengben: 0 },
     { id: 9, name: '送货上门', model: '', price: 3000, chengben: 0 },
   ]);
 
